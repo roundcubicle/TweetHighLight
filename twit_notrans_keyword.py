@@ -68,8 +68,5 @@ def main():
             print(findReplaceAll(element['Tweet'].lower(), highlight))
 
 
-
-
-
 if __name__ == '__main__':
     main()
