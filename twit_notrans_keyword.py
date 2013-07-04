@@ -1,4 +1,4 @@
-__date__ = "February 15, 2013"
+__date__ = "July 4, 2013"
 __author__ = "AlienOne"
 __copyright__ = "GPL"
 __credits__ = ["Justin Jessup"]
@@ -8,8 +8,8 @@ __maintainer__ = "AlienOne"
 __email__ = "Justin@alienonesecurity.com"
 __status__ = "Prototype"
 
-"""Monitor Twitter Real Time Data Stream via a List of keywords"""
-
+"""Monitor Twitter Real Time Data Stream via a List of keywords
+   Color Highlight Keywords Monitored Within Tweet for Prototyping Purposes"""
 
 import tweetstream
 import time
