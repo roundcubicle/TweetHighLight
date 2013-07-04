@@ -18,8 +18,8 @@ from colors import TerminalController
 
 def findReplaceAll(text, dic):
     """Find elements within string and replace"""
-    for i, j in dic.iteritems():
-        text = text.replace(i, j)
+    for key, value in dic.iteritems():
+        text = text.replace(key, value)
     return text
 
 
