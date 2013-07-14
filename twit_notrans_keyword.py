@@ -14,6 +14,7 @@ __status__ = "Prototype"
 import tweetstream
 import time
 from colors import TerminalController
+import time
 
 
 def findReplaceAll(text, dic):
@@ -57,15 +58,16 @@ def twitterStream(consumer_key, consumer_secret, access_token, access_secret, ke
 
 
 def main():
-    consumer_key = 'CONSUMER_KEY'
-    consumer_secret = 'CONSUMER_SECRET'
-    access_token = 'ACCESS_TOKEN'
-    access_secret = 'ACCESS_SECRET'
-    keywords = ["anonymous", "egypt"]
+    consumer_key = 'lMVKTGsY7LMHS0g6Ktxw'
+    consumer_secret = 'Khi8QX7bvE2MW6iqHq7pyRrv0eFZUnljwunmugjk'
+    access_token = '400841479-CckMUnIFUzOpd0PhymOslaoNP9gJjxiWNxdGRFzo'
+    access_secret = 'LhiAFLuZrwH3VjXiEzhL7fg8z69DtZglLy62UOEk'
+    keywords = ["Snowden"]
     for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, keywords):
         for item in keywords:
-            highlight = {item: TerminalController().CYAN + item + TerminalController().NORMAL}
-            print(findReplaceAll(element['Tweet'].lower(), highlight))
+            highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
+            print(findReplaceAll(element['Tweet'], highlight))
+        time.sleep(3)
 
 
 if __name__ == '__main__':
