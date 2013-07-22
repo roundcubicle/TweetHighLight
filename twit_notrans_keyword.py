@@ -23,6 +23,7 @@ import time
 
 
 def get_following_ids(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name):
+    """Oauth2 authentication required for Twitter API v1.1"""
     consumer = oauth2.Consumer(key=consumer_key, secret=consumer_secret)
     access_token = oauth2.Token(key=access_token, secret=access_secret)
     client = oauth2.Client(consumer, access_token)
@@ -43,7 +44,7 @@ def findReplaceAll(text, dic):
 
 
 def twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
-    """Watch Twitter RealTime Stream for WatchList Elements"""
+    """Watch Twitter RealTime Stream - Follow Twitter ID's Twitter Target User is Following - and Track List of Keywords Within Whom they are following Twitter Stream"""
     for follow_ids in get_following_ids(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name):
         with tweetstream.FilterStream(consumer_key, consumer_secret, access_token, access_secret, follow=follow_ids, track=keywords) as stream:
             for tweet in stream:
@@ -76,6 +77,7 @@ def twitterStream(consumer_key, consumer_secret, access_token, access_secret, tw
                        
 
 def main():
+    """Color Highligh Keywords Printed to STDOUT Within Tweet Messages"""
     consumer_key = 'lMVKTGsY7LMHS0g6Ktxw'
     consumer_secret = 'Khi8QX7bvE2MW6iqHq7pyRrv0eFZUnljwunmugjk'
     access_token = '400841479-CckMUnIFUzOpd0PhymOslaoNP9gJjxiWNxdGRFzo'
