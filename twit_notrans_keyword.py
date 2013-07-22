@@ -85,7 +85,7 @@ def main():
     access_token = '400841479-CckMUnIFUzOpd0PhymOslaoNP9gJjxiWNxdGRFzo'
     access_secret = 'LhiAFLuZrwH3VjXiEzhL7fg8z69DtZglLy62UOEk'
     twitter_user_name = "AnonymousIRC"
-    keywords = ["NSA"]
+    keywords = [" NSA "]
     for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
         for item in keywords:
             if item.lower() in element['Tweet'].lower():
