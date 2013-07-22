@@ -22,7 +22,6 @@ import tweetstream
 import time
 from itertools import chain
 from colors import TerminalController
-import time
 
 
 def get_following_ids(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name):
@@ -89,9 +88,9 @@ def main():
     keywords = ["NSA"]
     for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
         for item in keywords:
-            highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
-            print(findReplaceAll(element['Tweet'], highlight))
-        #time.sleep(3)
+            if item.lower() in element['Tweet'].lower():
+                highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
+                print(findReplaceAll(element['Tweet'], highlight))
 
 
 if __name__ == '__main__':
