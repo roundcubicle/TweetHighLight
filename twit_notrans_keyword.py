@@ -8,14 +8,32 @@ __maintainer__ = "AlienOne"
 __email__ = "Justin@alienonesecurity.com"
 __status__ = "Prototype"
 
+
 """Monitor Twitter Real Time Data Stream via a List of keywords
    Color Highlight Keywords Monitored Within Tweet for Prototyping Purposes"""
 
+
+import oauth2
+import json
 import tweetstream
 import time
+from itertools import chain
 from colors import TerminalController
 import time
 
+
+def get_following_ids(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name):
+    consumer = oauth2.Consumer(key=consumer_key, secret=consumer_secret)
+    access_token = oauth2.Token(key=access_token, secret=access_secret)
+    client = oauth2.Client(consumer, access_token)
+    following = "https://api.twitter.com/1.1/friends/ids.json?cursor=-1&screen_name=" + twitter_user_name + "&count=5000"
+    response, data = client.request(following)
+    json_object = json.loads(data)
+    twitter_id_list = []
+    for following_id in json_object['ids']:
+        twitter_id_list.append(following_id)
+    yield list(chain(twitter_id_list))
+  
 
 def findReplaceAll(text, dic):
     """Find elements within string and replace"""
@@ -24,16 +42,16 @@ def findReplaceAll(text, dic):
     return text
 
 
-def twitterStream(consumer_key, consumer_secret, access_token, access_secret, keywords):
+def twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
     """Watch Twitter RealTime Stream for WatchList Elements"""
-    with tweetstream.FilterStream(consumer_key, consumer_secret, access_token, access_secret, track=keywords) as stream:
-        for tweet in stream:
-            try:
+    for follow_ids in get_following_ids(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name):
+        with tweetstream.FilterStream(consumer_key, consumer_secret, access_token, access_secret, follow=follow_ids, track=keywords) as stream:
+            for tweet in stream:
+                try:
                     if 'web' in tweet['source']:
                         source_platform = tweet['source']
                     else:
                         source_platform = tweet['source'].split('"')[4].split('>')[1].split('<')[0]
-
                     tweet_time = tweet['created_at']
                     pattern = '%a %b %d %H:%M:%S +0000 %Y'
                     creation_time = int(time.mktime(time.strptime(tweet_time, pattern))) * 1000
@@ -53,21 +71,22 @@ def twitterStream(consumer_key, consumer_secret, access_token, access_secret, ke
                           source_lang, tweet_en]
                     twit_dict = dict(zip(keys, values))
                     yield twit_dict
-            except KeyError:
-                pass
-
+                except KeyError:
+                    pass
+                       
 
 def main():
     consumer_key = 'lMVKTGsY7LMHS0g6Ktxw'
     consumer_secret = 'Khi8QX7bvE2MW6iqHq7pyRrv0eFZUnljwunmugjk'
     access_token = '400841479-CckMUnIFUzOpd0PhymOslaoNP9gJjxiWNxdGRFzo'
     access_secret = 'LhiAFLuZrwH3VjXiEzhL7fg8z69DtZglLy62UOEk'
-    keywords = ["Snowden"]
-    for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, keywords):
+    twitter_user_name = "AnonymousIRC"
+    keywords = ["NSA"]
+    for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
         for item in keywords:
             highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
             print(findReplaceAll(element['Tweet'], highlight))
-        time.sleep(3)
+        #time.sleep(3)
 
 
 if __name__ == '__main__':
