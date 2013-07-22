@@ -1,16 +1,19 @@
-__date__ = "July 4, 2013"
+__date__ = "July 22, 2013"
 __author__ = "AlienOne"
 __copyright__ = "GPL"
 __credits__ = ["Justin Jessup"]
 __license__ = "GPL"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 __maintainer__ = "AlienOne"
 __email__ = "Justin@alienonesecurity.com"
 __status__ = "Prototype"
 
 
-"""Monitor Twitter Real Time Data Stream via a List of keywords
-   Color Highlight Keywords Monitored Within Tweet for Prototyping Purposes"""
+"""
+- Twitter Stream API v1.1 Real Time Monitoring 
+- Follow Target User/s Tweet Stream of Whom they are Following 
+- Track Tweets of whom they are following for keywords 
+"""
 
 
 import oauth2
