@@ -24,6 +24,15 @@ from itertools import chain
 from colors import TerminalController
 
 
+def get_keywords(file_name):
+    keywords = []
+    with open(file_name, "r") as f:
+        for keyword in f:
+            keywords.append(keyword.strip())
+        yield keywords
+
+
+
 def get_following_ids(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name):
     """Oauth2 authentication required for Twitter API v1.1"""
     consumer = oauth2.Consumer(key=consumer_key, secret=consumer_secret)
@@ -85,12 +94,13 @@ def main():
     access_token = '400841479-CckMUnIFUzOpd0PhymOslaoNP9gJjxiWNxdGRFzo'
     access_secret = 'LhiAFLuZrwH3VjXiEzhL7fg8z69DtZglLy62UOEk'
     twitter_user_name = "Stocktwits"
-    keywords = [" $SPY ", " $DIA ", " $QQQQ ", " $QCOM ", " $BIDU ", " $QIHU " ]
-    for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
-        for item in keywords:
-            if item.lower() in element['Tweet'].lower():
-                highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
-                print(findReplaceAll(element['Tweet'], highlight))
+    file_name = "keywordlist"
+    for keywords in get_keywords(file_name):
+        for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
+            for item in keywords:
+                if item.lower() in element['Tweet'].lower():
+                    highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
+                    print(findReplaceAll(element['Tweet'], highlight))
 
 
 if __name__ == '__main__':
