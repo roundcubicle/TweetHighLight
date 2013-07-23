@@ -99,7 +99,7 @@ def main():
         for element in twitterStream(consumer_key, consumer_secret, access_token, access_secret, twitter_user_name, keywords):
             for item in keywords:
                 if item.lower() in element['Tweet'].lower():
-                    highlight = {item: TerminalController().CYAN + item.lower() + TerminalController().NORMAL}
+                    highlight = {item: TerminalController().RED + item.lower() + TerminalController().NORMAL}
                     print(findReplaceAll(element['Tweet'], highlight))
 
 
